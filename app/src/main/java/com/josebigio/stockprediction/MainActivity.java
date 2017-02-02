@@ -15,6 +15,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -22,22 +24,24 @@ import timber.log.Timber;
 public class MainActivity extends AppCompatActivity {
 
     @Inject StocksProvider stocksProvider;
+
+    @BindView(R.id.autoCompleteTextView)
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> adapter;
-
-
-    private static final String TAG = MainActivity.class.getName();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         ((Application)getApplication()).getApiComponent().inject(this);
-        autoCompleteTextView = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextView);
         autoCompleteTextView.addTextChangedListener(textWatcher);
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line);
         autoCompleteTextView.setAdapter(adapter);
+
+
+
     }
 
     private List<String> getResults(List<Stock> list) {
