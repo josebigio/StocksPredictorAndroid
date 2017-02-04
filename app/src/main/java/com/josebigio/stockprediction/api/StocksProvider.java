@@ -1,6 +1,7 @@
 package com.josebigio.stockprediction.api;
 
 import com.josebigio.stockprediction.models.Stock;
+import com.josebigio.stockprediction.models.optionchains.OptionsInfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,13 @@ public class StocksProvider extends ApiProvider {
         params.put("name",query);
         return getService(ApiService.class, HOST_NAME).findStocks(params)
                 .switchMap(listApiResponse -> Observable.just(listApiResponse.getData()));
+    }
+
+    public Observable<OptionsInfo> getStockData(Stock stock) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("stock_name",stock.getStockName());
+        return getService(ApiService.class, HOST_NAME).getStockData(params)
+                .switchMap(listApiResponce -> Observable.just(listApiResponce.getData()));
     }
 
 }

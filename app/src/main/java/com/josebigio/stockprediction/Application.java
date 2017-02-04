@@ -1,8 +1,8 @@
 package com.josebigio.stockprediction;
 
-import com.josebigio.stockprediction.di.ApiComponent;
-import com.josebigio.stockprediction.di.ApiModule;
-import com.josebigio.stockprediction.di.DaggerApiComponent;
+import com.josebigio.stockprediction.di.DaggerMainComponent;
+import com.josebigio.stockprediction.di.MainComponent;
+import com.josebigio.stockprediction.di.MainModule;
 
 import timber.log.Timber;
 
@@ -11,17 +11,19 @@ import timber.log.Timber;
  */
 public class Application extends android.app.Application {
 
-    ApiComponent apiComponent;
+    MainComponent mainComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        apiComponent = DaggerApiComponent.builder().apiModule(new ApiModule(this)).build();
+        mainComponent = DaggerMainComponent.builder().mainModule(new MainModule(this)).build();
         Timber.plant(new Timber.DebugTree());
 
     }
 
-    public ApiComponent getApiComponent() {
-        return apiComponent;
+    public MainComponent getMainComponent() {
+        return mainComponent;
     }
+
+
 }
