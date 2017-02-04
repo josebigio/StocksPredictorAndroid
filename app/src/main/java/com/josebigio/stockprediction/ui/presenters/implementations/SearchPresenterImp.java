@@ -3,7 +3,9 @@ package com.josebigio.stockprediction.ui.presenters.implementations;
 import android.content.Context;
 
 import com.josebigio.stockprediction.api.StocksProvider;
+import com.josebigio.stockprediction.models.PlotData;
 import com.josebigio.stockprediction.models.Stock;
+import com.josebigio.stockprediction.models.optionchains.Call;
 import com.josebigio.stockprediction.ui.presenters.interfaces.SearchPresenter;
 import com.josebigio.stockprediction.ui.views.interfaces.SearchView;
 
@@ -42,6 +44,7 @@ public class SearchPresenterImp implements SearchPresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(optionsInfo -> {
                     Timber.d("onNext: %s",optionsInfo);
+                    searchView.renderPlot(selectedStock.getCompanyName(),getPlotData(optionsInfo.getCalls()));
                 }, error -> {
                     Timber.e("error getting stock info",error);
                 });
@@ -69,6 +72,19 @@ public class SearchPresenterImp implements SearchPresenter {
         for(Stock stock: list) {
             result.add(stock.getCompanyName());
         }
+        return result;
+    }
+
+    private PlotData getPlotData(List<Call> calls) {
+        PlotData result = new PlotData();
+        List<Number> xCoords = new ArrayList<>();
+        List<Number> yCoords = new ArrayList<>();
+        for(Call call: calls) {
+            xCoords.add(Float.parseFloat(call.getP()));
+            yCoords.add(Float.parseFloat(call.getStrike()));
+        }
+        result.setxCoords(xCoords);
+        result.setyCoords(yCoords);
         return result;
     }
 }
