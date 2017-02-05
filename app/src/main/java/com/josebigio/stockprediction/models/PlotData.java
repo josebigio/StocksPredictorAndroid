@@ -1,12 +1,13 @@
 package com.josebigio.stockprediction.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * <h1>PlotData</h1>
  */
-public class PlotData {
+public class PlotData implements Serializable {
 
     private List<Number> xCoords = new ArrayList<>();
     private List<Number> yCoords = new ArrayList<>();

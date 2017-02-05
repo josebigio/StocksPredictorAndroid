@@ -58,7 +58,11 @@ public class SearchViewImp extends android.support.v4.app.Fragment implements Se
     SearchPresenter searchPresenter;
     ProgressDialog progressDialog;
     ArrayAdapter<String> adapter;
+    String currentTitle = "";
+    PlotData currentPlotData = new PlotData();
 
+    private static final String PLOT_DATA_KEY = "PlotDataKey";
+    private static final String TITLE_KEY = "TitleKey";
 
     public static SearchViewImp newInstance() {
         SearchViewImp myFragment = new SearchViewImp();
@@ -86,10 +90,25 @@ public class SearchViewImp extends android.support.v4.app.Fragment implements Se
             searchPresenter.onStockSelected(position);
 
         });
+        if(savedInstanceState != null) {
+            String title = savedInstanceState.getString(TITLE_KEY);
+            PlotData plotData = (PlotData)savedInstanceState.getSerializable(PLOT_DATA_KEY);
+            if(title!=null && plotData!=null) {
+               renderPlot(title,plotData);
+            }
+        }
         return result;
     }
 
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable(PLOT_DATA_KEY,currentPlotData);
+        outState.putSerializable(TITLE_KEY,currentTitle);
+        Timber.d("[lifecycle] onSaveInstanceState. outState %s",outState);
+    }
 
     TextWatcher textWatcher = new TextWatcher() {
         @Override
@@ -124,6 +143,8 @@ public class SearchViewImp extends android.support.v4.app.Fragment implements Se
 
         // turn the above arrays into XYSeries':
         // (Y_VALS_ONLY means use the element index as the x value)
+        this.currentPlotData = plotData;
+        this.currentTitle = title;
         graph.clear();
         graph.setTitle(title);
         Number[] domainLabels = plotData.getyCoords().toArray(new Number[plotData.getyCoords().size()]);
