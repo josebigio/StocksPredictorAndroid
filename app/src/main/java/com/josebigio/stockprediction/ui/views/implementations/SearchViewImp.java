@@ -152,7 +152,7 @@ public class SearchViewImp extends android.support.v4.app.Fragment implements Se
                 plotData.getxCoords(), SimpleXYSeries.ArrayFormat.Y_VALS_ONLY, "Strike");
         // create formatters to use for drawing a series using LineAndPointRenderer
         // and configure them from xml:
-        LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.RED, Color.GREEN, Color.BLUE, null);
+        LineAndPointFormatter series1Format = new LineAndPointFormatter(Color.RED, Color.GREEN, Color.TRANSPARENT, null);
         series1Format.setInterpolationParams(
                 new CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal));
         graph.addSeries(series1, series1Format);

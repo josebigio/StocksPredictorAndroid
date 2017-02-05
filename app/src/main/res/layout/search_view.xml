@@ -3,6 +3,7 @@
     xmlns:ap="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="@color/ap_white"
     android:layout_height="match_parent">
 
 
@@ -17,7 +18,32 @@
         ap:rangeTitle="Strike"
         ap:domainTitle="Price"
         ap:lineLabels="left|bottom"
-        ap:lineLabelRotationBottom="-45"/>
+        ap:backgroundColor="@color/ap_white"
+        ap:borderColor="@color/ap_white"
+        ap:domainOriginLineColor="@color/ap_black"
+        ap:rangeOriginLineColor="@color/ap_black"
+        ap:gridBackgroundColor="#ffe0b2"
+        ap:graphBackgroundColor="@color/ap_white"
+        ap:domainLineColor="@color/ap_black"
+        ap:rangeLineColor="@color/ap_black"
+        ap:marginBottom="0dp"
+        ap:marginLeft="0dp"
+        ap:marginTop="0dp"
+        ap:marginRight="0dp"
+        ap:graphAnchor="center"
+        ap:graphHorizontalPositioning="absolute_from_center"
+        ap:graphHorizontalPosition="0dp"
+        ap:graphVerticalPositioning="absolute_from_center"
+        ap:graphVerticalPosition="0dp"
+        ap:lineLabelTextSizeTop="10dp"
+        ap:lineLabelTextSizeBottom="10dp"
+        ap:lineLabelTextSizeLeft="10dp"
+        ap:lineLabelTextSizeRight="10dp"
+        ap:lineLabelTextColorTop="@color/ap_black"
+        ap:lineLabelTextColorBottom="@color/ap_black"
+        ap:lineLabelTextColorLeft="@color/ap_black"
+        ap:lineLabelTextColorRight="@color/ap_black"
+        ap:lineLabelRotationBottom="-90"/>
 
 
     <AutoCompleteTextView
