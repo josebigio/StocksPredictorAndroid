@@ -21,6 +21,7 @@ import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYGraphWidget;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
+import com.androidplot.xy.XYSeriesRegistry;
 import com.josebigio.stockprediction.Application;
 import com.josebigio.stockprediction.R;
 import com.josebigio.stockprediction.models.PlotData;
@@ -91,10 +92,9 @@ public class SearchViewImp extends android.support.v4.app.Fragment implements Se
 
         });
         if(savedInstanceState != null) {
-            String title = savedInstanceState.getString(TITLE_KEY);
-            PlotData plotData = (PlotData)savedInstanceState.getSerializable(PLOT_DATA_KEY);
-            if(title!=null && plotData!=null) {
-               renderPlot(title,plotData);
+            XYSeriesRegistry registry = (XYSeriesRegistry)savedInstanceState.getSerializable(PLOT_DATA_KEY);
+            if(registry!=null) {
+                graph.setRegistry(registry);
             }
         }
         return result;
@@ -105,8 +105,7 @@ public class SearchViewImp extends android.support.v4.app.Fragment implements Se
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(PLOT_DATA_KEY,currentPlotData);
-        outState.putSerializable(TITLE_KEY,currentTitle);
+        outState.putSerializable(PLOT_DATA_KEY,graph.getRegistry());
         Timber.d("[lifecycle] onSaveInstanceState. outState %s",outState);
     }
 
