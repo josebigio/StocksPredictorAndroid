@@ -1,5 +1,7 @@
 package com.josebigio.stockprediction.ui.views.implementations;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ProgressBar;
 
 import com.androidplot.xy.CatmullRomInterpolator;
 import com.androidplot.xy.LineAndPointFormatter;
@@ -22,6 +25,7 @@ import com.josebigio.stockprediction.Application;
 import com.josebigio.stockprediction.R;
 import com.josebigio.stockprediction.models.PlotData;
 import com.josebigio.stockprediction.ui.presenters.interfaces.SearchPresenter;
+import com.josebigio.stockprediction.ui.views.UnfilteredAdapter;
 import com.josebigio.stockprediction.ui.views.interfaces.SearchView;
 
 import java.text.FieldPosition;
@@ -46,10 +50,15 @@ public class SearchViewImp extends android.support.v4.app.Fragment implements Se
     AutoCompleteTextView autoCompleteTextView;
     @BindView(plot)
     XYPlot graph;
-    ArrayAdapter<String> adapter;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
 
     @Inject
     SearchPresenter searchPresenter;
+    ProgressDialog progressDialog;
+    ArrayAdapter<String> adapter;
+
 
     public static SearchViewImp newInstance() {
         SearchViewImp myFragment = new SearchViewImp();
@@ -59,12 +68,17 @@ public class SearchViewImp extends android.support.v4.app.Fragment implements Se
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Timber.d("[lifecycle] onCreateView. bundle %s",savedInstanceState);
         View result =  inflater.inflate(R.layout.search_view, container, false);
         ((Application)getActivity().getApplication()).getMainComponent().inject(this);
         ButterKnife.bind(this,result);
         searchPresenter.setView(this);
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressBar.setVisibility(View.GONE);
         autoCompleteTextView.addTextChangedListener(textWatcher);
-        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line);
+        adapter = new UnfilteredAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line);
         autoCompleteTextView.setAdapter(adapter);
         autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
             Timber.d("Selected: pos %d, view %s",position,view);
@@ -135,6 +149,29 @@ public class SearchViewImp extends android.support.v4.app.Fragment implements Se
         graph.redraw();
     }
 
+    @Override
+    public void showLoading(boolean show) {
+        if(show) {
+            progressDialog.show();
+        }
+        else {
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void showTextLoading(boolean show) {
+        progressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void showError(String error) {
+       new AlertDialog.Builder(getContext())
+                .setTitle("Error")
+                .setMessage(error)
+                .create()
+                .show();
+    }
 
 
     private void hideKeyboard() {

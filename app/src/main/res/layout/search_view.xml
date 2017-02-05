@@ -19,12 +19,24 @@
         ap:lineLabels="left|bottom"
         ap:lineLabelRotationBottom="-45"/>
 
+
     <AutoCompleteTextView
-        android:text="AutoCompleteTextView"
+        android:text=""
+        android:hint="@string/search_for_a_stock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="29dp"
+        android:id="@+id/autoCompleteTextView"
         android:layout_alignParentTop="true"
-        android:id="@+id/autoCompleteTextView"/>
+        android:layout_alignParentStart="true" />
+
+    <ProgressBar
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/progressBar"
+        android:layout_alignTop="@+id/autoCompleteTextView"
+        android:layout_alignParentEnd="true">
+    </ProgressBar>
+
 
 </RelativeLayout>

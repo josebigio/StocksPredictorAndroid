@@ -11,4 +11,8 @@ public interface SearchView {
     void clearResults();
     void setSearchDataSet(List<String> results);
     void renderPlot(String title, PlotData plotData);
+    void showLoading(boolean show);
+    void showTextLoading(boolean show);
+    void showError(String error);
+
 }

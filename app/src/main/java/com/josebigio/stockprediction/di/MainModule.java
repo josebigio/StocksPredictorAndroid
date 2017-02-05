@@ -3,7 +3,9 @@ package com.josebigio.stockprediction.di;
 import android.content.Context;
 
 import com.josebigio.stockprediction.api.StocksProvider;
+import com.josebigio.stockprediction.ui.presenters.implementations.MainPresenterImp;
 import com.josebigio.stockprediction.ui.presenters.implementations.SearchPresenterImp;
+import com.josebigio.stockprediction.ui.presenters.interfaces.MainPresenter;
 import com.josebigio.stockprediction.ui.presenters.interfaces.SearchPresenter;
 
 import javax.inject.Singleton;
@@ -35,12 +37,19 @@ public class MainModule {
         return new StocksProvider();
     }
 
+    @Provides
+    @Singleton
+    public MainPresenter provideMainPresenter() {
+        return new MainPresenterImp();
+    }
 
     @Provides
     @Singleton
-    public SearchPresenter provideSearchPresenter(Context context, StocksProvider stocksProvider) {
-        return new SearchPresenterImp(context,stocksProvider);
+    public SearchPresenter provideSearchPresenter(StocksProvider stocksProvider) {
+        return new SearchPresenterImp(stocksProvider);
     }
+
+
 
 
 }

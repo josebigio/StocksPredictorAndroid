@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StockPrediction</string>
+    <string name="search_for_a_stock">Search for a stock</string>
 </resources>

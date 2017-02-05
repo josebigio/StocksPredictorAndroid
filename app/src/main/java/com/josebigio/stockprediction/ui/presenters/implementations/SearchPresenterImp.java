@@ -1,7 +1,5 @@
 package com.josebigio.stockprediction.ui.presenters.implementations;
 
-import android.content.Context;
-
 import com.josebigio.stockprediction.api.StocksProvider;
 import com.josebigio.stockprediction.models.PlotData;
 import com.josebigio.stockprediction.models.Stock;
@@ -22,12 +20,10 @@ import timber.log.Timber;
 public class SearchPresenterImp implements SearchPresenter {
 
     private SearchView searchView;
-    private Context context;
     private StocksProvider stocksProvider;
     private List<Stock> lastStocks;
 
-    public SearchPresenterImp(Context context, StocksProvider stocksProvider) {
-        this.context = context;
+    public SearchPresenterImp(StocksProvider stocksProvider) {
         this.stocksProvider = stocksProvider;
     }
 
@@ -39,29 +35,35 @@ public class SearchPresenterImp implements SearchPresenter {
     @Override
     public void onStockSelected(int pos) {
         Stock selectedStock = lastStocks.get(pos);
+        searchView.showLoading(true);
         stocksProvider.getStockData(selectedStock)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(optionsInfo -> {
+                    searchView.showLoading(false);
                     Timber.d("onNext: %s",optionsInfo);
                     searchView.renderPlot(selectedStock.getCompanyName(),getPlotData(optionsInfo.getCalls()));
                 }, error -> {
-                    Timber.e("error getting stock info",error);
+                    searchView.showLoading(false);
+                    searchView.showError("Could not get data for " + selectedStock.getCompanyName());
+                    Timber.e("error getting stock info: %s",error);
                 });
     }
 
     @Override
     public void onTextChanged(String text) {
+        searchView.showTextLoading(true);
         stocksProvider.findStocks(text)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(stocks -> {
+                    searchView.showTextLoading(false);
                     Timber.d("stocks: %s",stocks);
                     searchView.clearResults();
                     searchView.setSearchDataSet(getResults(stocks));
                     lastStocks = stocks;
-
                 }, error -> {
+                    searchView.showTextLoading(false);
                     Timber.e("error getting stocks",error);
                 });
     }
@@ -80,8 +82,18 @@ public class SearchPresenterImp implements SearchPresenter {
         List<Number> xCoords = new ArrayList<>();
         List<Number> yCoords = new ArrayList<>();
         for(Call call: calls) {
-            xCoords.add(Float.parseFloat(call.getP()));
-            yCoords.add(Float.parseFloat(call.getStrike()));
+            float y;
+            float x;
+            try {
+                y = Float.parseFloat(call.getP());
+                x = Float.parseFloat(call.getStrike());
+                yCoords.add(y);
+                xCoords.add(x);
+            }
+            catch (NumberFormatException e) {
+                Timber.e("error parsing data: %s",e);
+            }
+
         }
         result.setxCoords(xCoords);
         result.setyCoords(yCoords);
