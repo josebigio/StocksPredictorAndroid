@@ -2,7 +2,6 @@ package com.josebigio.stockprediction;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.FrameLayout;
 
 import com.josebigio.stockprediction.ui.presenters.interfaces.MainPresenter;
 import com.josebigio.stockprediction.ui.views.implementations.SearchViewImp;
@@ -10,16 +9,12 @@ import com.josebigio.stockprediction.ui.views.interfaces.MainView;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements MainView {
 
 
-
-    @BindView(R.id.searchViewFragment)
-    FrameLayout searchViewContainer;
 
     @Inject
     MainPresenter mainPresenter;

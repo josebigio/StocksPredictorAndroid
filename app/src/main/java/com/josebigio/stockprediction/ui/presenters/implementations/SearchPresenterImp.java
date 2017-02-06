@@ -85,8 +85,8 @@ public class SearchPresenterImp implements SearchPresenter {
             float y;
             float x;
             try {
-                y = Float.parseFloat(call.getP());
-                x = Float.parseFloat(call.getStrike());
+                x = Float.parseFloat(call.getP());
+                y = Float.parseFloat(call.getStrike());
                 yCoords.add(y);
                 xCoords.add(x);
             }
@@ -97,6 +97,7 @@ public class SearchPresenterImp implements SearchPresenter {
         }
         result.setxCoords(xCoords);
         result.setyCoords(yCoords);
+        Timber.d("plotData: %s",result);
         return result;
     }
 }
