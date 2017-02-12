@@ -8,11 +8,17 @@ import com.josebigio.stockprediction.ui.views.interfaces.MainView;
  */
 public class MainPresenterImp implements MainPresenter {
 
-    MainView mainView;
+    private MainView mainView;
 
     @Override
     public void setView(MainView mainView) {
         this.mainView = mainView;
-        mainView.startSearchView();
+        mainView.initialize();
+        mainView.addSearchView();
+    }
+
+    @Override
+    public void onActionClicked() {
+        mainView.addSearchView();
     }
 }

@@ -8,4 +8,5 @@ import com.josebigio.stockprediction.ui.views.interfaces.MainView;
 public interface MainPresenter {
 
     void setView(MainView mainView);
+    void onActionClicked();
 }

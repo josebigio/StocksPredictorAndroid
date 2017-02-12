@@ -10,6 +10,8 @@ import com.josebigio.stockprediction.ui.views.interfaces.SearchView;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import timber.log.Timber;
@@ -23,6 +25,7 @@ public class SearchPresenterImp implements SearchPresenter {
     private StocksProvider stocksProvider;
     private List<Stock> lastStocks;
 
+    @Inject
     public SearchPresenterImp(StocksProvider stocksProvider) {
         this.stocksProvider = stocksProvider;
     }
@@ -69,6 +72,7 @@ public class SearchPresenterImp implements SearchPresenter {
     }
 
 
+
     private List<String> getResults(List<Stock> list) {
         List<String> result = new ArrayList<>();
         for(Stock stock: list) {
@@ -85,8 +89,8 @@ public class SearchPresenterImp implements SearchPresenter {
             float y;
             float x;
             try {
-                x = Float.parseFloat(call.getP());
-                y = Float.parseFloat(call.getStrike());
+                y = Float.parseFloat(call.getP());
+                x = Float.parseFloat(call.getStrike());
                 yCoords.add(y);
                 xCoords.add(x);
             }

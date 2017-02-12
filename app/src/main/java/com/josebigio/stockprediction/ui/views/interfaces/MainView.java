@@ -5,5 +5,6 @@ package com.josebigio.stockprediction.ui.views.interfaces;
  */
 public interface MainView {
 
-    void startSearchView();
+    void addSearchView();
+    void initialize();
 }

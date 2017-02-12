@@ -3,6 +3,7 @@ package com.josebigio.stockprediction.di;
 import android.content.Context;
 
 import com.josebigio.stockprediction.api.StocksProvider;
+import com.josebigio.stockprediction.ui.navigation.Navigationer;
 import com.josebigio.stockprediction.ui.presenters.implementations.MainPresenterImp;
 import com.josebigio.stockprediction.ui.presenters.implementations.SearchPresenterImp;
 import com.josebigio.stockprediction.ui.presenters.interfaces.MainPresenter;
@@ -21,9 +22,11 @@ public class MainModule {
 
     private Context context;
 
+
     public MainModule(Context context) {
         this.context = context;
     }
+
 
     @Provides
     @Singleton
@@ -45,6 +48,11 @@ public class MainModule {
 
     @Provides
     @Singleton
+    public Navigationer provideNavigationer() {
+        return new Navigationer();
+    }
+
+    @Provides
     public SearchPresenter provideSearchPresenter(StocksProvider stocksProvider) {
         return new SearchPresenterImp(stocksProvider);
     }

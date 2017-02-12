@@ -45,6 +45,7 @@ public class SearchViewImp extends android.support.v4.app.Fragment implements Se
     XYPlot graph;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+
     PlotView plotView;
 
 
@@ -52,14 +53,13 @@ public class SearchViewImp extends android.support.v4.app.Fragment implements Se
     SearchPresenter searchPresenter;
     ProgressDialog progressDialog;
     ArrayAdapter<String> adapter;
-    String currentTitle = "";
-    PlotData currentPlotData = new PlotData();
+
 
     private static final String PLOT_DATA_KEY = "PlotDataKey";
-    private static final String TITLE_KEY = "TitleKey";
 
     public static SearchViewImp newInstance() {
         SearchViewImp myFragment = new SearchViewImp();
+
         return myFragment;
     }
 
